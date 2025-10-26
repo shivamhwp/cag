@@ -122,6 +122,8 @@
   --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
   --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
   --tracking-normal: 0em;
+  /* Gradient animation color: dark tint for light theme (slightly stronger) */
+  --bg-glow-color: oklch(0 0 0 / 0.3);
 }
 
 .dark {
@@ -177,10 +179,41 @@
   --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
   --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
   --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+  /* Gradient animation color: white glow for dark theme */
+  --bg-glow-color: oklch(1 0 0 / 0.12);
 }
 
 body {
   font-family: 'Inter Tight Variable', sans-serif;
+}
+
+/* Animated background using theme-driven glow color */
+@keyframes bg-breathe {
+  0% {
+    background-position:
+      0% 0%,
+      100% 100%;
+  }
+  25% {
+    background-position:
+      100% 0%,
+      0% 100%;
+  }
+  50% {
+    background-position:
+      100% 100%,
+      0% 0%;
+  }
+  75% {
+    background-position:
+      0% 100%,
+      100% 0%;
+  }
+  100% {
+    background-position:
+      0% 0%,
+      100% 100%;
+  }
 }
 
 @layer base {
@@ -190,5 +223,13 @@ body {
   body {
     @apply bg-background text-foreground;
     letter-spacing: var(--tracking-normal);
+    /* Subtle animated radial gradients that adapt to theme */
+    background-image:
+      radial-gradient(40% 60% at 10% 10%, var(--bg-glow-color), transparent 60%),
+      radial-gradient(50% 40% at 90% 90%, var(--bg-glow-color), transparent 60%);
+    background-repeat: no-repeat;
+    background-size: 140% 140%, 140% 140%;
+    background-attachment: fixed;
+    animation: bg-breathe 18s ease-in-out infinite;
   }
 }
