@@ -1,16 +1,49 @@
 ---
-
+import '../styles/global.css';
+import { TopNav } from '../components/ui/TopNav';
+import { GithubIcon} from 'lucide-react';
+import { ModeToggle } from '@/components/ui/ModeToggle';
 ---
+
+ 
+<script is:inline>
+	const getThemePreference = () => {
+		if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+			return localStorage.getItem('theme');
+		}
+		return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+	};
+	const isDark = getThemePreference() === 'dark';
+	document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+
+	if (typeof localStorage !== 'undefined') {
+		const observer = new MutationObserver(() => {
+			const isDark = document.documentElement.classList.contains('dark');
+			localStorage.setItem('theme', isDark ? 'dark' : 'light');
+		});
+		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+	}
+</script>
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content="background agents coming soon ..." />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>cag</title>
 	</head>
-	<body>
-		<h1>Astro</h1>
+
+	<body class="min-h-screen w-screen fixed">
+		<TopNav client:load/>
+		<div class="flex flex-col items-center justify-center h-screen">
+			<div class="">
+			<span class="text-2xl text-muted-foreground">coming soon...</span>
+			<div class="gap-3 flex">	
+				<a href="https://github.com/shivamhwp/cag" target="_blank" class="text-muted-foreground hover:text-foreground">github</a>
+				<a href="https://x.com/shivamhwp" target="_blank" class="text-muted-foreground hover:text-foreground">x.com</a>
+			</div>
+			</div>
+		</div>
 	</body>
-</html>
+</html>	

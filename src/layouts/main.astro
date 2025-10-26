@@ -1,0 +1,17 @@
+---
+import '../styles/global.css';
+// Supports weights 100-900
+import '@fontsource-variable/inter-tight';
+const { content } = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>{content.title}</title>
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
